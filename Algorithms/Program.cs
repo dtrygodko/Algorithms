@@ -16,14 +16,15 @@ namespace Algorithms
             Debug.Assert(index == 1);
             index = Search.RecursiveLinearSearch(array, array.Length - 1, 0, 10);
             Debug.Assert(index == -1);
-            array = new int[] { 1, 2, 3, 4, 5, 6 };
+            Sorter.InsertionSort(array);
             index = Search.BinarySearch(array, 10);
             Debug.Assert(index == -1);
             index = Search.BinarySearch(array, 4);
+            Debug.Assert(index == 4);
             index = Search.RecursiveBinarySearch(array, 0, array.Length - 1, 10);
             Debug.Assert(index == -1);
             index = Search.RecursiveBinarySearch(array, 0, array.Length - 1, 4);
-            Debug.Assert(index == 3);
+            Debug.Assert(index == 4);
         }
     }
 }

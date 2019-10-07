@@ -16,7 +16,8 @@ namespace Algorithms
             Debug.Assert(index == 1);
             index = Search.RecursiveLinearSearch(array, array.Length - 1, 0, 10);
             Debug.Assert(index == -1);
-            Sorter.InsertionSort(array);
+            //Sorter.QuickSort(array, 0, array.Length - 1);
+            array = Sorter.CountingSort(array, array.Length, 6);
             index = Search.BinarySearch(array, 10);
             Debug.Assert(index == -1);
             index = Search.BinarySearch(array, 4);

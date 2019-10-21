@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 
 namespace Algorithms
 {
@@ -7,25 +6,23 @@ namespace Algorithms
     {
         static void Main(string[] args)
         {
-            var array = new int[] { 1, 2, 5, 4, 2, 0 };
-            var index = Search.LinearSearch(array, 2);
-            Debug.Assert(index == 4);
-            index = Search.BetterLinearSearch(array, 2);
-            Debug.Assert(index == 1);
-            index = Search.SentinelLinearSearch(array, 2);
-            Debug.Assert(index == 1);
-            index = Search.RecursiveLinearSearch(array, array.Length - 1, 0, 10);
-            Debug.Assert(index == -1);
-            //Sorter.QuickSort(array, 0, array.Length - 1);
-            array = Sorter.CountingSort(array, array.Length, 6);
-            index = Search.BinarySearch(array, 10);
-            Debug.Assert(index == -1);
-            index = Search.BinarySearch(array, 4);
-            Debug.Assert(index == 4);
-            index = Search.RecursiveBinarySearch(array, 0, array.Length - 1, 10);
-            Debug.Assert(index == -1);
-            index = Search.RecursiveBinarySearch(array, 0, array.Length - 1, 4);
-            Debug.Assert(index == 4);
+            var graph = new List<List<int>> { new List<int>{2},
+                                              new List<int>{3},
+                                              new List<int>{3, 4},
+                                              new List<int>{5},
+                                              new List<int>{5},
+                                              new List<int>{6, 10},
+                                              new List<int>{7},
+                                              new List<int>{12},
+                                              new List<int>{9},
+                                              new List<int>{10},
+                                              new List<int>{11},
+                                              new List<int>{12},
+                                              new List<int>{13},
+                                              new List<int>()};
+
+            var g = new Graph(graph);
+            var path = GraphSort.TopologicalSort(g);
         }
     }
 }

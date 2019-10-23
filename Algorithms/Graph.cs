@@ -20,7 +20,12 @@ namespace Algorithms
         {
             Index = index;
             Adjacencies = adjacencies;
-        } 
+        }
+
+        public GraphNode Clone()
+        {
+            return (GraphNode)MemberwiseClone();
+        }
     }
 
     class Graph
@@ -102,6 +107,23 @@ namespace Algorithms
             }
         }
 
+        public int GetMinShortestIndex()
+        {
+            double min = Shortest[0];
+            int minIndex = 0;
+
+            for (int i = 1; i < Shortest.Length; ++i)
+            {
+                if (Shortest[i] < min)
+                {
+                    min = Shortest[i];
+                    minIndex = i;
+                }
+            }
+
+            return minIndex;
+        }
+
         public void DagShortestPaths(GraphNode s)
         {
             var order = GraphSort.TopologicalSort(Graph);
@@ -111,6 +133,26 @@ namespace Algorithms
             }
             foreach(var u in order)
             {
+                foreach (var v in u.Adjacencies)
+                {
+                    Relax(u, v.TargetNode);
+                }
+            }
+        }
+
+        public void Dijkstra(GraphNode s)
+        {
+            foreach (var v in Graph.AdjacencyList.Where(o => o.Index != s.Index))
+            {
+                Shortest[v.Index] = double.PositiveInfinity;
+            }
+            var q = new Dictionary<int, GraphNode>(Graph.AdjacencyList.Select(n => new KeyValuePair<int, GraphNode>(n.Index, n.Clone())));
+
+            while (q.Any())
+            {
+                var minShortest = GetMinShortestIndex();
+                var u = q[minShortest];
+                q.Remove(minShortest);
                 foreach (var v in u.Adjacencies)
                 {
                     Relax(u, v.TargetNode);

@@ -24,10 +24,11 @@ namespace Algorithms
                                               new List<(int,int)>()};
 
             var g = new Graph(graph);
-            var path = GraphSort.TopologicalSort(g);
-
             var container = new GraphContainer(g);
-            container.DagShortestPaths(g.AdjacencyList.Last());
+            container.DagShortestPaths(g.AdjacencyList.First());
+            var g2 = new Graph(graph);
+            var container2 = new GraphContainer(g2);
+            container2.DagShortestPaths(g2.AdjacencyList.First());
             Console.WriteLine("adsa");
         }
     }

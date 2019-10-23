@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Algorithms
 {
@@ -6,23 +8,27 @@ namespace Algorithms
     {
         static void Main(string[] args)
         {
-            var graph = new List<List<int>> { new List<int>{2},
-                                              new List<int>{3},
-                                              new List<int>{3, 4},
-                                              new List<int>{5},
-                                              new List<int>{5},
-                                              new List<int>{6, 10},
-                                              new List<int>{7},
-                                              new List<int>{12},
-                                              new List<int>{9},
-                                              new List<int>{10},
-                                              new List<int>{11},
-                                              new List<int>{12},
-                                              new List<int>{13},
-                                              new List<int>()};
+            var graph = new List<List<(int, int)>> { new List<(int,int)>{(2,1)},
+                                              new List<(int,int)>{(3,3)},
+                                              new List<(int,int)>{(3, 4), (4,0)},
+                                              new List<(int,int)>{(5,6)},
+                                              new List<(int,int)>{(5,3)},
+                                              new List<(int,int)>{(6, 1), (10,0)},
+                                              new List<(int,int)>{(7,8)},
+                                              new List<(int,int)>{(12,12)},
+                                              new List<(int,int)>{(9,4)},
+                                              new List<(int,int)>{(10,3)},
+                                              new List<(int,int)>{(11,7)},
+                                              new List<(int,int)>{(12,3)},
+                                              new List<(int,int)>{(13,2)},
+                                              new List<(int,int)>()};
 
             var g = new Graph(graph);
             var path = GraphSort.TopologicalSort(g);
+
+            var container = new GraphContainer(g);
+            container.DagShortestPaths(g.AdjacencyList.Last());
+            Console.WriteLine("adsa");
         }
     }
 }

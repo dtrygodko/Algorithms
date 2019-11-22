@@ -20,7 +20,21 @@ namespace Algorithms
             var g2 = new Graph(graph);
             var container2 = new GraphContainer(g2);
             container2.BellmanFord(g2.AdjacencyList.First());
-            Console.WriteLine("adsa");
+
+            string x = "abcd", y = "abcdef";
+
+            var l = String.ComputeLCSTable(x, y);
+
+            var result = String.AssembleLCS(x, y, l, x.Length, y.Length);
+
+            Console.WriteLine(result);
+
+            x = "ACAAGC";
+            y = "CCGT";
+
+            var r = String.ComputeTransformTables(x, y, -1, 1, 2, 2);
+
+            Console.ReadLine();
         }
     }
 }

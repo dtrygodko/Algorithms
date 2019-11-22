@@ -107,17 +107,22 @@ namespace Algorithms
             }
         }
 
-        public int GetMinShortestIndex()
+        public int GetMinShortestIndex(List<int> excludeIndex)
         {
-            double min = Shortest[0];
-            int minIndex = 0;
+            var shortest = Shortest.Select((el, i) => (el, i)).Where(el => {
+                (double e, int i) = el;
+                return !excludeIndex.Contains(i);
+            }).ToArray();
+            (double min, int index) = shortest[0];
+            int minIndex = index;
 
-            for (int i = 1; i < Shortest.Length; ++i)
+            for (int i = 1; i < shortest.Length; ++i)
             {
-                if (Shortest[i] < min)
+                (double newShortest, int newMinIndex) = shortest[i];
+                if (newShortest < min)
                 {
-                    min = Shortest[i];
-                    minIndex = i;
+                    min = newShortest;
+                    minIndex = newMinIndex;
                 }
             }
 
@@ -148,14 +153,36 @@ namespace Algorithms
             }
             var q = new Dictionary<int, GraphNode>(Graph.AdjacencyList.Select(n => new KeyValuePair<int, GraphNode>(n.Index, n.Clone())));
 
+            var removedNodeIndexes = new List<int>();
+
             while (q.Any())
             {
-                var minShortest = GetMinShortestIndex();
+                var minShortest = GetMinShortestIndex(removedNodeIndexes);
                 var u = q[minShortest];
                 q.Remove(minShortest);
+                removedNodeIndexes.Add(minShortest);
                 foreach (var v in u.Adjacencies)
                 {
                     Relax(u, v.TargetNode);
+                }
+            }
+        }
+
+        public void BellmanFord(GraphNode s)
+        {
+            foreach (var v in Graph.AdjacencyList.Where(o => o.Index != s.Index))
+            {
+                Shortest[v.Index] = double.PositiveInfinity;
+            }
+
+            for (int i = 1; i < Graph.AdjacencyList.Count; i++)
+            {
+                foreach (var u in Graph.AdjacencyList)
+                {
+                    foreach (var v in u.Adjacencies)
+                {
+                    Relax(u, v.TargetNode);
+                }
                 }
             }
         }

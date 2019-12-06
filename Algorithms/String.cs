@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Algorithms
 {
@@ -97,6 +99,67 @@ namespace Algorithms
                 }
             }
             return new Tuple<int[,], Operation[,]> (cost, op);
+        }
+
+        public static Stack<Operation> AssembleTransformation(Operation[,] op, int i, int j, Stack<Operation> result)
+        {
+            if (i == 0 && j == 0)
+            {
+                return result;
+            }
+            var currentOp = op[i, j];
+            if (currentOp == Operation.Copy || currentOp == Operation.Replace)
+            {
+                result.Push(currentOp);
+                return AssembleTransformation(op, i - 1, j - 1, result);
+            }
+            if (currentOp == Operation.Delete)
+            {
+                result.Push(currentOp);
+                return AssembleTransformation(op, i - 1, j, result);
+            }
+
+            result.Push(currentOp);
+            return AssembleTransformation(op, i, j-1, result);
+        }
+
+        public static Dictionary<char, int>[] GetNextState(string t, string p)
+        {
+            var m = p.Length;
+            var result = new Dictionary<char, int>[m + 1];
+            for (int i = 0; i < result.Length; ++i)
+            {
+                result[i] = new Dictionary<char, int>();
+            }
+            var uniqueSymbols = t.Distinct();
+            for (int k = 0; k <= m; k++)
+            {
+                foreach(var a in uniqueSymbols)
+                {
+                    var pka = p.Substring(0, k) + a;
+                    var i = Math.Min(k + 1, m);
+                    while (!pka.EndsWith(p.Substring(0, i)))
+                    {
+                        i--;
+                    }
+                    result[k][a] = i;
+                }
+            }
+            return result;
+        }
+
+        public static void FAStringMatcher(string t, Dictionary<char, int>[] nextState, int m)
+        {
+            var n = t.Length;
+            var state = 0;
+            for (int i = 0; i < n; ++i)
+            {
+                state = nextState[state][t[i]];
+                if (state == m)
+                {
+                    Console.WriteLine($"Template found on index {i - m + 1}");
+                }
+            }
         }
     }
 }

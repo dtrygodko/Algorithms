@@ -34,6 +34,14 @@ namespace Algorithms
 
             var r = String.ComputeTransformTables(x, y, -1, 1, 2, 2);
 
+            var transformations = String.AssembleTransformation(r.Item2, r.Item2.GetLength(0) - 1, r.Item2.GetLength(1) - 1, new Stack<String.Operation>());
+
+            var t = "GTAACAGTAAACG";
+
+            var nextState = String.GetNextState(t, "AAC");
+
+            String.FAStringMatcher(t, nextState, 3);
+
             Console.ReadLine();
         }
     }

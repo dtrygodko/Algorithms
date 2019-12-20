@@ -42,6 +42,10 @@ namespace Algorithms
 
             String.FAStringMatcher(t, nextState, 3);
 
+            var res = Cryptography.Euclid(7, 13);
+
+            var res1 = Cryptography.ModularExponentiation(3, 10, 13);
+
             Console.ReadLine();
         }
     }
